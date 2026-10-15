@@ -20,18 +20,12 @@ An Expo and React Native mobile app for exploring Adventure Escape SA and its gu
 
 From the project directory, install dependencies and start Expo:
 
-```bash
-npm install
-npm start
+
 ```
 
 To launch a specific target:
 
-```bash
-npm run web
-npm run android
-npm run ios
-```
+
 
 Use the Expo terminal menu to open the project on a connected device or simulator. The iOS command requires macOS and an available iOS Simulator or device.
 
