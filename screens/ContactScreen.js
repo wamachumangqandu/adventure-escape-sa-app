@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Pressable,
   ScrollView,
@@ -18,15 +18,53 @@ const activities = [
   "Rock Climbing",
 ];
 
+function parseCurrencyValue(value) {
+  const numericValue = Number(String(value).replace(/[^\d.-]/g, ""));
+  return Number.isFinite(numericValue) ? numericValue : 0;
+}
+
+function getDiscountRate(numberOfBookings) {
+  if (numberOfBookings >= 4) return 0.15;
+  if (numberOfBookings === 3) return 0.1;
+  if (numberOfBookings === 2) return 0.05;
+  return 0;
+}
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("en-ZA", {
+    style: "currency",
+    currency: "ZAR",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
+
 export default function ContactScreen({ selectedAdventure }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [activity, setActivity] = useState(
     selectedAdventure?.bookingActivity ?? activities[0],
   );
+  const [bookingQuantity, setBookingQuantity] = useState("1");
   const [date, setDate] = useState("");
   const [message, setMessage] = useState("");
   const [activityOpen, setActivityOpen] = useState(false);
+
+  useEffect(() => {
+    if (selectedAdventure?.bookingActivity) {
+      setActivity(selectedAdventure.bookingActivity);
+    }
+  }, [selectedAdventure]);
+
+  const bookingCount = Math.max(
+    1,
+    Number.parseInt(bookingQuantity || "1", 10) || 1,
+  );
+  const baseFee = parseCurrencyValue(selectedAdventure?.fee ?? "R0");
+  const discountRate = getDiscountRate(bookingCount);
+  const subtotal = baseFee * bookingCount;
+  const discountAmount = subtotal * discountRate;
+  const totalDue = subtotal - discountAmount;
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
@@ -86,6 +124,16 @@ export default function ContactScreen({ selectedAdventure }) {
           </View>
         ) : null}
 
+        <Text style={styles.label}>Number of Bookings:</Text>
+        <TextInput
+          accessibilityLabel="Number of Bookings:"
+          keyboardType="number-pad"
+          maxLength={2}
+          onChangeText={(value) => setBookingQuantity(value.replace(/\D/g, ""))}
+          style={styles.input}
+          value={bookingQuantity}
+        />
+
         <Text style={styles.label}>Select Date:</Text>
         <TextInput
           accessibilityLabel="Select Date:"
@@ -104,6 +152,28 @@ export default function ContactScreen({ selectedAdventure }) {
           textAlignVertical="top"
           value={message}
         />
+
+        {selectedAdventure ? (
+          <View style={styles.calculationPanel}>
+            <Text style={styles.panelTitle}>Booking Calculation</Text>
+            <Text style={styles.detail}>
+              Fee per booking: {selectedAdventure.fee}
+            </Text>
+            <Text style={styles.detail}>Bookings: {bookingCount}</Text>
+            <Text style={styles.detail}>
+              Discount: {Math.round(discountRate * 100)}%
+            </Text>
+            <Text style={styles.detail}>
+              Subtotal: {formatCurrency(subtotal)}
+            </Text>
+            <Text style={styles.detail}>
+              Discount amount: {formatCurrency(discountAmount)}
+            </Text>
+            <Text style={styles.total}>
+              Total due: {formatCurrency(totalDue)}
+            </Text>
+          </View>
+        ) : null}
 
         <Pressable
           accessibilityRole="button"
@@ -227,6 +297,14 @@ const styles = StyleSheet.create({
   submitDisabled: {
     backgroundColor: "#A8ADA5",
   },
+  calculationPanel: {
+    marginTop: 18,
+    padding: 18,
+    gap: 8,
+    backgroundColor: "#FFFFFF",
+    borderLeftWidth: 3,
+    borderLeftColor: "#E56B3F",
+  },
   contactPanel: {
     marginTop: 30,
     padding: 18,
@@ -243,6 +321,12 @@ const styles = StyleSheet.create({
     color: "#5F685F",
     fontSize: 12,
     lineHeight: 18,
+  },
+  total: {
+    color: "#1D4337",
+    fontSize: 15,
+    fontWeight: "800",
+    marginTop: 4,
   },
   footer: {
     color: "#72796F",
