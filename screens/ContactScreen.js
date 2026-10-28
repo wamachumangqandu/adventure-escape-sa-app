@@ -24,7 +24,7 @@ const VAT_RATE = 0.15; // South African VAT
 const MAX_BOOKINGS = 20;
 const MAX_MESSAGE = 500;
 const MAX_MONTHS_AHEAD = 12;
-const FORM_ENDPOINT = "https://formsubmit.co/ajax/hello@adventureescapesa.co.za";
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/wamachumangqandu@gmail.com";
 
 function getDiscountRate(numberOfBookings) {
   if (numberOfBookings >= 4) return 0.15;
@@ -443,8 +443,8 @@ export default function ContactScreen({ selectedAdventure }) {
 
       <View style={styles.contactPanel}>
         <Text style={styles.panelTitle}>Adventure Escape SA</Text>
-        <Text style={styles.detail}>Email: hello@adventureescapesa.co.za</Text>
-        <Text style={styles.detail}>Phone: +27 21 555 0199</Text>
+           <Text style={styles.detail}>Email: wamachumangqandu@gmail.com</Text>
+        <Text style={styles.detail}>Phone: 073 889 8324 </Text>
         <Text style={styles.detail}>Location: Cape Town, Western Cape</Text>
         <Text style={styles.detail}>Hours: Mon-Sat, 8:00am - 5:00pm</Text>
       </View>
