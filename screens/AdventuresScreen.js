@@ -36,7 +36,7 @@ const packages = [
     title: "Family Explorer Package",
     feeLabel: "Package Fee:",
     fee: "R1500",
-    bookingActivity: "Family Explorer",
+    bookingActivity: "Family Explorer Package",
     purpose: "A fun-filled outdoor experience designed for families.",
     includes: [
       "Nature walk",
@@ -51,7 +51,7 @@ const packages = [
     title: "Mountain Adventure Package",
     feeLabel: "Package Fee:",
     fee: "R1500",
-    bookingActivity: "Mountain Adventure",
+    bookingActivity: "Mountain Adventure Package",
     purpose: "A guided mountain adventure for outdoor enthusiasts.",
     includes: [
       "Mountain hiking",
@@ -85,12 +85,12 @@ const activities = [
     title: "Ziplining Adventure",
     feeLabel: "Fee:",
     fee: "R750",
-    bookingActivity: "Ziplining",
+    bookingActivity: "Ziplining Adventure",
     purpose:
       "Experience breathtaking views while ziplining through the forest.",
     includes: [
       "Safety briefing",
-      "Equipment hires",
+      "Equipment hire",
       "Professional instructors",
     ],
     image: ziplining,
@@ -99,7 +99,7 @@ const activities = [
     title: "Kayaking Experience",
     feeLabel: "Fee:",
     fee: "R750",
-    bookingActivity: "Kayaking",
+    bookingActivity: "Kayaking Experience",
     purpose: "Paddle through scenic rivers and lakes.",
     includes: ["Kayak and paddle", "Safety equipment", "Guided route"],
     image: kayaking,
@@ -108,7 +108,7 @@ const activities = [
     title: "Rock Climbing Session",
     feeLabel: "Fee:",
     fee: "R750",
-    bookingActivity: "Rock Climbing",
+    bookingActivity: "Rock Climbing Session",
     purpose: "Learn climbing techniques on natural rock faces.",
     includes: [
       "Climbing equipment",

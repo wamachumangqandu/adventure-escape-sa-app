@@ -7,19 +7,42 @@ An Expo and React Native mobile app for exploring Adventure Escape SA and its gu
 - Home screen with the company overview, mission, and featured experiences
 - About screen with the company story and values
 - Adventures screen with package and individual activity details and prices
-- Contact screen with an inquiry form and business contact information
-- Booking calculation logic with quantity-based discounts
+- Contact screen with an inquiry form, error checking, and business contact information
+- Booking calculation with quantity-based discounts and 15% VAT
 - Bottom tab navigation between Home, About, Adventures, and Contact
 - Mobile-first design for Expo app experiences
 
-## Booking discount logic
+## Booking calculation
 
-The Contact screen calculates the total cost based on the selected package and the number of bookings:
+The Contact screen works out the cost of the chosen activity and number of bookings. The price always follows the activity selected in the drop-down list, and tapping **Book Now** on the Adventures screen fills in that adventure for you.
 
-- 1 booking: 0% discount
-- 2 bookings: 5% discount
-- 3 bookings: 10% discount
-- 4 or more bookings: 15% discount
+Discounts are based on the number of bookings:
+
+| Bookings | Discount |
+| --- | --- |
+| 1 | None |
+| 2 | 5% |
+| 3 | 10% |
+| 4 or more (up to 20) | 15% |
+
+South African VAT of 15% is then added to the discounted price. These are the same prices and rules as the website.
+
+Example: 3 × Ziplining Adventure (R750) = R2,250, minus 10% (R225) = R2,025, plus 15% VAT (R303.75) = **R2,328.75**.
+
+## Error handling
+
+When **Send inquiry** is pressed, every field is checked. A red summary appears at the top listing what needs fixing, and a message appears under each field:
+
+| Field | Rule |
+| --- | --- |
+| Name | Required, at least 2 letters, letters, spaces, hyphens and apostrophes only |
+| Email | Required, must look like `name@example.com` |
+| Activity | Must be one of the listed activities |
+| Number of bookings | 1 to 20 (the total is hidden until the number is valid) |
+| Date | Written as YYYY-MM-DD, a real date, not in the past, not more than 12 months ahead, and not a Sunday |
+| Message | Optional, up to 500 characters (a counter shows how many are used) |
+
+If sending fails, the app explains why: no internet connection, the request taking too long, or the form service refusing the inquiry.
 
 ## Project structure
 
@@ -68,9 +91,11 @@ npx expo start --web
 
 Use the Expo terminal menu to open the project on a connected device or simulator. The iOS command requires macOS and an available iOS Simulator or device.
 
-## Booking form status
+## Sending inquiries
 
-The Contact screen provides a booking inquiry interface with the calculation summary, but the Submit button is disabled. No booking data is sent or stored yet; connecting a backend or form service would be the next step.
+The **Send inquiry** button sends the inquiry, including the booking total, to `hello@adventureescapesa.co.za` through FormSubmit, the same free service the website uses. The button shows "Sending…" while it works, and a green message confirms when the inquiry has been sent.
+
+The first time an inquiry is sent, FormSubmit emails an activation link to that address. Inquiries are only delivered after the link has been clicked.
 
 ## Useful commands
 
